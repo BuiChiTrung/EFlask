@@ -23,6 +23,13 @@ export FLASK_DEBUG=true
 export FLASK_RUN_PORT=5001
 ```
 
+### Setup DB
+Create db EFlask in mysql, then:
+```
+flask shell
+db.create_all()
+```
+
 ### Run 
 
 ```

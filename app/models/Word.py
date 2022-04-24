@@ -14,6 +14,9 @@ class Word(db.Model):
 
     sys_defs = db.relationship('SystemDefinition', backref='word', lazy='dynamic')
 
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def __repr__(self):
         return (f'<"word": "{self.word}",'
                 f'"ipa": "{self.ipa}",'

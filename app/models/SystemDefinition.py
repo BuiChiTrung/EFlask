@@ -11,6 +11,9 @@ class SystemDefinition(db.Model):
 
     word_id = db.Column(db.Integer, db.ForeignKey('words.id'))
 
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def __repr__(self):
         return (f'<"meaning": "{self.meaning}",'
                 f'"lexical_category": "{self.lexical_category}",'

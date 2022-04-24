@@ -17,5 +17,5 @@ class Word(db.Model):
     def __repr__(self):
         return (f'<"word": "{self.word}",'
                 f'"ipa": "{self.ipa}",'
-                f'"inclusion_image_url": "{self.inclusion_image_url}"'
+                f'"img_url": "{self.img_url}"'
                 '>')

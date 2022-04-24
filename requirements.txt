@@ -6,6 +6,7 @@ cffi==1.15.0
 charset-normalizer==2.0.12
 click==8.1.2
 cryptography==36.0.2
+fake-useragent==0.1.11
 Flask==2.1.1
 Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
@@ -17,7 +18,9 @@ itsdangerous==2.1.2
 Jinja2==3.1.1
 Mako==1.2.0
 MarkupSafe==2.1.1
+mysql-connector-python==8.0.28
 outcome==1.1.0
+protobuf==3.20.1
 pycparser==2.21
 pyOpenSSL==22.0.0
 PySocks==1.7.1

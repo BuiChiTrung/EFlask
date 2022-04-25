@@ -4,15 +4,8 @@
 
 ```
 python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-```
-
-### Migrate database
-
-```
-flask db init
-flask db migrate
-flask db upgrade
 ```
 
 ### Add env var
@@ -28,6 +21,14 @@ Create db EFlask in mysql, then:
 ```
 flask shell
 db.create_all()
+```
+
+### Migrate database
+
+```
+flask db init
+flask db migrate
+flask db upgrade
 ```
 
 ### Run 

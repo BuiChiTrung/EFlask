@@ -1,6 +1,3 @@
-from enum import unique
-from sqlalchemy import Integer, PrimaryKeyConstraint, null
-
 from app import db
 from app.models.SystemDefinition import SystemDefinition
 

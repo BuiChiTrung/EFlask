@@ -19,7 +19,7 @@ function doGet(e) {
   
     /* Option 1 */
   
-    var translatedText = LanguageApp.translate(sourceText, sourceLang, targetLang);
+    // var translatedText = LanguageApp.translate(sourceText, sourceLang, targetLang);
   
     /* Option 2 */
   

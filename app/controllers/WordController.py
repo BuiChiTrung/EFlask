@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import login_required
 
 from app import db
 from app.models.Word import Word
@@ -6,6 +7,7 @@ from app.models.Word import Word
 word_blueprint = Blueprint('word_blueprint', __name__)
 
 @word_blueprint.route('/words')
+@login_required
 def index():
     word = Word.query.filter_by(word=request.args.get('word')).first()
     sys_defs = word.sys_defs.all()

@@ -22,8 +22,12 @@ Create db EFlask in mysql, then:
 flask shell
 db.create_all()
 ```
+Add data from file to db
+```
+python -m build_db.add_words_to_db
+```
 
-### Migrate database
+### Migrate database (when db schema changes)
 
 ```
 flask db init

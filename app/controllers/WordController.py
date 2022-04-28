@@ -2,27 +2,28 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required
 
 from app import db
-from app.models.Word import Word
+from app.repositories.WordRepository import WordRepository
 
+repository = WordRepository('app.models.Word', 'Word')
 word_blueprint = Blueprint('word_blueprint', __name__)
 
-@word_blueprint.route('/words')
+@word_blueprint.route('/')
 @login_required
-def index():
-    word = Word.query.filter_by(word=request.args.get('word')).first()
-    sys_defs = word.sys_defs.all()
+def find_like():
+    words = repository.find_like(request.args.get('word'))
+    result = []
+    
+    for word in words:
+        defs = word.sys_defs.all()
+        for i in range(len(defs)):
+            defs[i] = defs[i].as_dict()
+        word = word.as_dict()
+        word['sys_defs'] = defs
+        result.append(word)
 
-    defs = []
-    for sys_def in sys_defs:
-        defs.append(sys_def.as_dict())
+    return jsonify(result)
 
-    return jsonify({
-        "word": word.as_dict(),
-        "defs": defs
-    })
-
-@word_blueprint.route('/words/<id>')
+@word_blueprint.route('/<id>')
 def show(id):
-    word = Word.query.get(id)
-    return jsonify(word.as_dict())
+    return jsonify(repository.show(id).as_dict())
 

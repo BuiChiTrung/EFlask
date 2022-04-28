@@ -17,9 +17,8 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     
-    from app.controllers.WordController import word_blueprint
-    app.register_blueprint(word_blueprint)
-    from app.controllers.AuthController import auth_blueprint
+    from app.controllers import word_blueprint, auth_blueprint
+    app.register_blueprint(word_blueprint, url_prefix='/words')
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app

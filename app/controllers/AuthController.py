@@ -4,34 +4,17 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, EqualTo
 
+from app.util  import json_response
 from app.models.User import User
-from app import db
+from app.repositories.UserRepository import UserRepository
 
+repository = UserRepository('app.models.User', 'User')
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 class LoginForm(FlaskForm):
     username = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired()])
     remember_me = BooleanField()
-
-@auth_blueprint.route('/login', methods=['POST'])
-def login():
-    form = LoginForm(request.form, meta={'csrf': False})
-
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
-            return jsonify({
-                'success': True,
-                'message': 'Login successfully.'
-            })
-
-    return jsonify({
-        'success': False,
-        'message': 'Invalid username or password.'
-    }), 400
-
 
 class SignUpForm(FlaskForm):
     username = StringField(validators=[DataRequired(), Length(min = 10, message='Username minium length is %(min)d.')])
@@ -42,21 +25,24 @@ class SignUpForm(FlaskForm):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
+@auth_blueprint.route('/login', methods=['POST'])
+def login():
+    form = LoginForm(request.form, meta={'csrf': False})
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
+            return json_response(True, 'Login successfully.')
+
+    return json_response(False, 'Invalid username or password.', 400)
+
 @auth_blueprint.route('/signup', methods=['POST'])
 def signup():
-    print('asf;lkahdfaksdjf;ashdfl;shdfhkjsd')
     form = SignUpForm(request.form, meta={'csrf': False})
 
-    if form.validate_on_submit():   
-        user = User(username=form.username.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return jsonify({
-            'success': True,
-            'message': 'Your account has been registered successfully.'
-        })
-
-    return jsonify({
-        'success': False,
-        'message': form.errors
-    }), 400
+    if form.validate_on_submit():
+        repository.create({'username': form.username.data, 'password': form.password.data})   
+        return json_response(True, 'Your account has been registered successfully.')
+        
+    return json_response(False, form.errors, 400)

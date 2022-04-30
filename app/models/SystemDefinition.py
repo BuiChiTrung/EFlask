@@ -5,11 +5,11 @@ class SystemDefinition(db.Model):
     __tablename__ = 'system_definitions'
 
     id = db.Column(db.Integer, primary_key=True)
-    meaning = db.Column(db.String(600), nullable=False)
+    meaning = db.Column(db.String(1000), nullable=False)
     lexical_category = db.Column(db.String(15))
     example = db.Column(db.String(1000))
 
-    word_id = db.Column(db.Integer, db.ForeignKey('words.id'))
+    word_id = db.Column(db.Integer, db.ForeignKey('words.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

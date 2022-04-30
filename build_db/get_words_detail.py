@@ -54,9 +54,10 @@ if __name__ == '__main__':
     with open(INP_FILE, 'r') as inp:
         with open(OUT_FILE, 'a') as out:
             lines = inp.readlines()
-            current_line = 49749
+            current_line = 53250
             last_line = len(lines)
 
             for i in range(current_line, last_line):
                 word = lines[i].strip()
+                print(word)
                 out.write(f'{json.dumps(search(word))}\n')

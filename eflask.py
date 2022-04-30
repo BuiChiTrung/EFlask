@@ -1,7 +1,10 @@
 from flask_migrate import Migrate
 
 from app import create_app, db
+from app.models.Card import Card
+from app.models.Deck import Deck
 from app.models.SystemDefinition import SystemDefinition
+from app.models.UserDefinition import UserDefinition
 from app.models.Word import Word
 from app.models.User import User
 
@@ -10,4 +13,4 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-	return dict(db=db, Word=Word, SystemDefinition=SystemDefinition, User=User)
+	return dict(db=db, Word=Word, SystemDefinition=SystemDefinition, User=User, Deck=Deck, UserDefinition=UserDefinition, Card=Card)

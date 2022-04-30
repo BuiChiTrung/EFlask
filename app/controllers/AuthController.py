@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_user
+from flask_login import login_required, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, EqualTo
@@ -42,7 +42,14 @@ def signup():
     form = SignUpForm(request.form, meta={'csrf': False})
 
     if form.validate_on_submit():
-        repository.create({'username': form.username.data, 'password': form.password.data})   
-        return json_response(True, 'Your account has been registered successfully.')
+        repository.store({'username': form.username.data, 'password': form.password.data})   
+        return json_response(True, 'Your account has been registered.')
         
     return json_response(False, form.errors, 400)
+
+@auth_blueprint.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return json_response(True, 'Logged out')
+    

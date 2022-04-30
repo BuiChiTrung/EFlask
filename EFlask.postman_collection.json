@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "0e434fa9-25a1-4c93-9ca0-5ac3bd5b2e2b",
+		"name": "EFlask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "buichitrung2001",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Trung123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "Trung123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/signup",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Decks",
+			"item": [
+				{
+					"name": "Create deck",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/decks/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"decks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete deck",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/decks/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"decks",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find deck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/decks/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"decks",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Others",
+			"item": []
+		},
+		{
+			"name": "Words",
+			"item": [
+				{
+					"name": "Find matching words",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Find word by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cards",
+			"item": [
+				{
+					"name": "Create card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cards",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cards"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

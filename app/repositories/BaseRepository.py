@@ -1,5 +1,10 @@
-from app import db
 import importlib
+
+from sqlalchemy import update
+
+from app import db
+from app.models.Deck import Deck
+
 
 class BaseRepository:
     def __init__(self, module, class_name):
@@ -15,10 +20,8 @@ class BaseRepository:
         return self.class_.query.get(id)
 
     def update(self, id, attrs):
-        model_instance = self.class_.query.get(id).update(attrs)
-        for key in attrs.key():
-            model_instance
-        db.session
+        db.session.execute(update(self.class_).filter_by(id=id).values(**attrs))
+        db.session.commit()
 
     def destroy(self, id):
         model_instance = self.class_.query.get(id)

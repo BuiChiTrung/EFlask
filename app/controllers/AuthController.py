@@ -47,7 +47,7 @@ def signup():
         
     return json_response(False, form.errors, 400)
 
-@auth_blueprint.route('/logout', methods=['GET'])
+@auth_blueprint.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()

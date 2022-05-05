@@ -11,6 +11,8 @@ class SystemDefinition(db.Model):
 
     word_id = db.Column(db.Integer, db.ForeignKey('words.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
 
+    cards = db.relationship('Card', backref='sys_def', lazy='dynamic')
+
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), index=True, unique=True, nullable=False)
     email = db.Column(db.String(50), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    decks = db.relationship('Deck', backref='user', lazy='dynamic')
 
     @property
     def password(self):

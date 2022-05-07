@@ -9,8 +9,8 @@ from app import db
 
 class CardRepository(BaseRepository): 
     def show_detail(self, card):
-        if 'sys_def_id' in card:
-            card_detail = db.session.execute(select(Card, SystemDefinition, Word).select_from(Card).join(SystemDefinition).join(Word).filter(Card.id==card['id'])).fetchone()
-        elif 'user_def_id' in card: 
-            card_detail = db.session.execute(select(Card, UserDefinition, Word).select_from(Card).join(UserDefinition).join(Word).filter(Card.id==card['id'])).fetchone()
+        if card.sys_def_id != None:
+            card_detail = db.session.execute(select(Card, SystemDefinition, Word).select_from(Card).join(SystemDefinition).join(Word).filter(Card.id==card.id)).fetchone()
+        elif card.user_def_id != None: 
+            card_detail = db.session.execute(select(Card, UserDefinition, Word).select_from(Card).join(UserDefinition).join(Word).filter(Card.id==card.id)).fetchone()
         return card_detail

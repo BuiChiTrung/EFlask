@@ -6,10 +6,10 @@ from app.util import json_response
 
 video_blueprint = Blueprint('video_blueprint', __name__)
 
-@video_blueprint.route('/', methods=['POST'])
+@video_blueprint.route('/')
 def get_video_subtitle():
-    video_url = request.form['url']
-    yt = YouTube(video_url)
+    youtube_id = request.args.get('youtube_id')
+    yt = YouTube(f'https://www.youtube.com/watch?v={youtube_id}')
     
     caption = None
     print(yt.captions)

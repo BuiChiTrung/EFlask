@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint,  request
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField
@@ -7,6 +7,8 @@ from wtforms.validators import DataRequired
 from app.util import json_response
 from app.repositories.DeckRepository import DeckRepository
 
+from functools import wraps
+
 repository = DeckRepository('app.models.Deck', 'Deck')
 deck_blueprint = Blueprint('deck_blueprint', __name__)
 
@@ -14,13 +16,14 @@ class CreateDeckForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
     
 def verifyDeckOwner(func):
+    @wraps(func)
     def inner(id):
         deck = repository.show(id)
         if deck == None:
             return json_response(False, 'Deck not found', 400)
         if deck.user_id != current_user.id:
             return json_response(False, 'This deck doesn\'t belong to you', 403)
-        res = func(deck)
+        res = func(deck.as_dict())
         return res
     return inner
     
@@ -39,7 +42,6 @@ def store():
 @verifyDeckOwner
 @login_required
 def show(deck):
-    deck = deck.as_dict()
     deck['cards'] = []
     cards = repository.show_cards_detail(deck['id'])
     print(cards)
@@ -56,28 +58,18 @@ def show(deck):
 
 
 @deck_blueprint.route('/<id>', methods=['PUT'])
+@verifyDeckOwner
 @login_required
-def update(id):
-    deck = repository.show(id)
-    if deck == None:
-        return json_response(False, 'Deck not found', 400)
-    if deck.user_id != current_user.id:
-        return json_response(False, 'This deck doesn\'t belong to you', 403)
-    
+def update(deck):
     if 'name' in request.form:
-        repository.update(id, {'name': request.form["name"]})
-    return json_response(True, deck.as_dict())
+        repository.update(deck['id'], {'name': request.form["name"]})
+    return json_response(True, deck)
 
 
 @deck_blueprint.route('/<id>', methods = ['DELETE'])
+@verifyDeckOwner
 @login_required
-def destroy(id):
-    deck = repository.show(id)
-    if deck == None:
-        return json_response(False, 'Deck not exist', 400)
-    if deck.user_id != current_user.id:
-        return json_response(False, 'This deck doesn\'t belong to you', 403)
-    
-    deleted_deck = repository.destroy(id)
+def destroy(deck):
+    deleted_deck = repository.destroy(deck['id'])
     return json_response(True, deleted_deck.as_dict())
 

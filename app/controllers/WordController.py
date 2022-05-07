@@ -3,7 +3,7 @@ from flask_login import login_required
 
 from app import db
 from app.repositories.WordRepository import WordRepository
-from app.util import json_response, json_array_convert
+from app.util import json_response, list_to_json_array
 
 repository = WordRepository('app.models.Word', 'Word')
 word_blueprint = Blueprint('word_blueprint', __name__)
@@ -17,7 +17,7 @@ def find_like():
     for word in words:
         defs = word.sys_defs.all()
         word = word.as_dict()
-        word['sys_defs'] = json_array_convert(defs)
+        word['sys_defs'] = list_to_json_array(defs)
         result.append(word)
 
     return json_response(True, result)

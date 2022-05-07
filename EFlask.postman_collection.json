@@ -12,7 +12,37 @@
 					"name": "Login",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "Trung123",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "buichitrung2001",
+									"type": "text"
+								},
+								{
+									"key": "remember_me",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
 					},
 					"response": []
 				},
@@ -26,7 +56,7 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "buichitrung2001",
+									"value": "buichitrung2005",
 									"type": "text"
 								},
 								{
@@ -57,8 +87,18 @@
 				{
 					"name": "Logout",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/auth/logout",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
 					},
 					"response": []
 				}
@@ -72,6 +112,16 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Deck 2",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{baseURL}}/decks/",
 							"host": [
@@ -80,6 +130,59 @@
 							"path": [
 								"decks",
 								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Test deck",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read deck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/decks/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"decks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update deck",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Old nameâ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/decks/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"decks",
+								"1"
 							]
 						}
 					},
@@ -91,31 +194,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/decks/3",
+							"raw": "{{baseURL}}/decks/9",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"decks",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find deck",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/decks/3",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"decks",
-								"3"
+								"9"
 							]
 						}
 					},
@@ -131,18 +216,44 @@
 			"name": "Words",
 			"item": [
 				{
-					"name": "Find matching words",
+					"name": "Read matching words",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/words/?word=ca",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"words",
+								""
+							],
+							"query": [
+								{
+									"key": "word",
+									"value": "ca"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "Find word by id",
+					"name": "Read word by id",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/words/11212123",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"words",
+								"11212123"
+							]
+						}
 					},
 					"response": []
 				}
@@ -156,6 +267,16 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "a",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{baseURL}}/cards",
 							"host": [
@@ -165,6 +286,55 @@
 								"cards"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read card",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cards/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Read user decks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/decks",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"decks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}

@@ -20,12 +20,8 @@ def find_like():
         word['sys_defs'] = json_array_convert(defs)
         result.append(word)
 
-    return json_response(200, result)
+    return json_response(True, result)
 
 @word_blueprint.route('/<id>')
 def show(id):
-    return json_response(200, repository.show(id).as_dict())
-
-@word_blueprint.route('/', methods=['POST'])
-def test():
-    return json_response(True, {}, 201)
+    return json_response(True, repository.show(id).as_dict())

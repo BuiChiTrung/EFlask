@@ -9,16 +9,16 @@ class SystemDefinition(db.Model):
     lexical_category = db.Column(db.String(15))
     example = db.Column(db.String(1000))
 
-    word_id = db.Column(db.Integer, db.ForeignKey('words.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    word_id = db.Column(db.Integer, db.ForeignKey('words.id'), nullable=False)
 
-    cards = db.relationship('Card', backref='sys_def', lazy='dynamic')
+    cards = db.relationship('Card', backref='sys_def', lazy='dynamic', cascade='all, delete-orphan')
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-    def __repr__(self):
-        return (f'<"meaning": "{self.meaning}",'
-                f'"lexical_category": "{self.lexical_category}",'
-                f'"example": "{self.example}",'
-                f'"word_id": "{self.word_id}"'
-                '>')
+    # def __repr__(self):
+    #     return (f'<"meaning": "{self.meaning}",'
+    #             f'"lexical_category": "{self.lexical_category}",'
+    #             f'"example": "{self.example}",'
+    #             f'"word_id": "{self.word_id}"'
+    #             '>')

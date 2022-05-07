@@ -43,7 +43,7 @@ def signup():
 
     if form.validate_on_submit():
         repository.store({'username': form.username.data, 'password': form.password.data})   
-        return json_response(True, 'Your account has been registered.')
+        return json_response(True, 'Your account has been registered.', 201)
         
     return json_response(False, form.errors, 400)
 

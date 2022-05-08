@@ -12,10 +12,9 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{os.getenv('USERNAME')}:{os.getenv('PASSWORD')}@{os.getenv('HOSTNAME')}:{os.getenv('PORT')}/{os.getenv('DATABASE')}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{os.getenv('DB_USER')}:{os.getenv('PASSWORD')}@{os.getenv('HOSTNAME')}:{os.getenv('PORT')}/{os.getenv('DATABASE')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     db.init_app(app)
     login_manager.init_app(app)

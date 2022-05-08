@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 
-from app.util import json_response
+from app.util import json_response, list_to_json_array
 from app.repositories.DeckRepository import DeckRepository
 
 from functools import wraps
@@ -73,3 +73,8 @@ def destroy(deck):
     deleted_deck = repository.destroy(deck['id'])
     return json_response(True, deleted_deck.as_dict())
 
+
+@deck_blueprint.route('/')
+@login_required
+def show_user_decks():
+    return json_response(True, list_to_json_array(current_user.decks.all()))

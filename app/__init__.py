@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import os
 
 from flask import Flask
@@ -6,13 +7,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:Trung123@127.0.0.1/EFlask"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{os.getenv('USERNAME')}:{os.getenv('PASSWORD')}@{os.getenv('HOSTNAME')}:{os.getenv('PORT')}/{os.getenv('DATABASE')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'very secret key'    
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  
+    print(app.config['SQLALCHEMY_DATABASE_URI'])
 
     db.init_app(app)
     login_manager.init_app(app)

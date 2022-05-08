@@ -8,34 +8,38 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Add env var
-
-```
-export FLASK_APP=eflask.py
-export FLASK_DEBUG=true
-export FLASK_RUN_PORT=5001
-```
-
 ### Setup DB
-Create db EFlask in mysql, then:
+#### Setup db in mysql & add configuration to .env
+```
+cp .env.example .env
+```
+#### Create db schema
+```
+# on MacOS/Linux
+export FLASK_APP=eflask.py
+# on Windows
+set FLASK_APP=eflask.py
+```
+
 ```
 flask shell
 db.create_all()
 ```
-Add data from file to db
+
+### Run 
+
+```
+python eflask.py
+```
+
+### Optional
+#### Add words data from file to db
 ```
 python -m build_db.add_words_to_db
 ```
 
-### Migrate database (when db schema changes)
-
-```
-flask db init
-flask db migrate
-flask db upgrade
-```
-
-### Update pytube to convert youtube caption from xml to srt
+#### In order to exec video API
+Update pytube to convert youtube caption from xml to srt
 ```
 # venv/lib/pytube/captions.py
 def xml_caption_to_srt(self, xml_captions: str) -> str:
@@ -73,9 +77,4 @@ def xml_caption_to_srt(self, xml_captions: str) -> str:
             segments.append(line)
             i += 1
     return "\n".join(segments).strip()
-```
-### Run 
-
-```
-flask run
 ```

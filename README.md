@@ -9,10 +9,11 @@ pip install -r requirements.txt
 ```
 
 ### Setup DB
-#### Setup db in mysql & add configuration to .env
+#### Set up db configuration in .env
 ```
 cp .env.example .env
 ```
+#### Setup db in mysql according to .env
 #### Create db schema
 ```
 # on MacOS/Linux

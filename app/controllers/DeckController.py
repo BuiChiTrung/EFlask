@@ -28,7 +28,7 @@ def verifyDeckOwner(func):
     return inner
     
 
-@deck_blueprint.route('/', methods=['POST'])
+@deck_blueprint.route('', methods=['POST'])
 @login_required
 def store():
     form = CreateDeckForm(request.form, meta={'csrf': False})

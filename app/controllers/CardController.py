@@ -31,7 +31,7 @@ def verifyCardOwner(func):
     return inner
 
 
-@card_blueprint.route('/', methods=['POST'])
+@card_blueprint.route('', methods=['POST'])
 @login_required
 def store():
     new_card = {

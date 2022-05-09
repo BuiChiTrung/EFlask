@@ -27,7 +27,7 @@ class SignUpForm(FlaskForm):
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
-    form = LoginForm(request.json, meta={'csrf': False})
+    form = LoginForm(request.form, meta={'csrf': False})
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()

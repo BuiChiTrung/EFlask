@@ -13,3 +13,10 @@ def tuple_to_dict(tuple):
     for i in range(len(tuple)):
        res.update(tuple[i].as_dict())
     return res 
+
+def get_error_list(error):
+    res = []
+    for value in error.values():
+        print(value)
+        res.extend(value)
+    return res

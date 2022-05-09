@@ -1,10 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_login import login_required, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, EqualTo
 
-from app.util  import json_response
+from app.util  import json_response, get_error_list
 from app.models.User import User
 from app.repositories.UserRepository import UserRepository
 
@@ -45,7 +45,7 @@ def signup():
         repository.store({'username': form.username.data, 'password': form.password.data})   
         return json_response(True, 'Your account has been registered.', 201)
         
-    return json_response(False, form.errors, 400)
+    return json_response(False, get_error_list(form.errors), 400)
 
 @auth_blueprint.route('/logout', methods=['POST'])
 @login_required

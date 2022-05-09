@@ -1,19 +1,13 @@
 from flask import Blueprint,  request
 from flask_login import login_required, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
 
-from app.util import json_response, list_to_json_array
+from app.util import json_response, list_to_json_array, get_error_list
 from app.repositories.DeckRepository import DeckRepository
 
 from functools import wraps
 
 repository = DeckRepository('app.models.Deck', 'Deck')
 deck_blueprint = Blueprint('deck_blueprint', __name__)
-
-class CreateDeckForm(FlaskForm):
-    name = StringField(validators=[DataRequired()])
     
 def verifyDeckOwner(func):
     @wraps(func)
@@ -31,11 +25,12 @@ def verifyDeckOwner(func):
 @deck_blueprint.route('', methods=['POST'])
 @login_required
 def store():
-    form = CreateDeckForm(request.form, meta={'csrf': False})
-    if form.validate_on_submit():
-        new_deck = repository.store({'name': form.name.data, 'user_id': current_user.id})
+    if 'name' not in request.form or len(request.form['name']) < 1:
+        return json_response(False, "Deck name is required", 400)
+    else:
+        new_deck = repository.store({'name': request.form['name'], 'user_id': current_user.id})
         return json_response(True, new_deck.as_dict(), 201)
-    return json_response(False, form.errors, 400)
+        
 
 
 @deck_blueprint.route('/<id>')

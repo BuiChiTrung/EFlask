@@ -19,7 +19,7 @@ cp .env.example .env
 # on MacOS/Linux
 export FLASK_APP=eflask.py
 # on Windows
-set FLASK_APP=eflask.py
+$env:FLASK_APP="eflask.py"
 ```
 
 ```

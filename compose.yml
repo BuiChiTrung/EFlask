@@ -1,0 +1,43 @@
+services:
+  database:
+    image: prepared-mysql
+    build: 
+      context: .
+      dockerfile: mysql.Dockerfile
+    expose:
+      - "3306"
+    networks:
+      - eflask
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Trung123
+      - MYSQL_DATABASE=EFlask
+    healthcheck:
+      test: mysqladmin ping -pTrung123
+
+  backend:
+    image: eflask
+    build: 
+      context: .
+      dockerfile: eflask.Dockerfile
+    ports:
+      - "5001:5001"
+    networks:
+      - eflask
+    environment:
+      - HOSTNAME=database
+      - PORT=3306
+      - DB_USER=root
+      - DATABASE=EFlask
+      - PASSWORD=Trung123
+      - SECRET_KEY="very secret key"
+    depends_on:
+      database:
+        condition: service_healthy 
+
+networks:
+  eflask:
+
+volumes:
+  db-data:

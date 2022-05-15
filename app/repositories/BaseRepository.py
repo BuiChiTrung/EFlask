@@ -1,4 +1,5 @@
 import importlib
+import logging
 
 from sqlalchemy import update
 
@@ -20,6 +21,7 @@ class BaseRepository:
         return self.class_.query.get(id)
 
     def update(self, id, attrs):
+        # logging.debug()
         db.session.execute(update(self.class_).filter_by(id=id).values(**attrs))
         db.session.commit()
 

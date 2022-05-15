@@ -1,3 +1,4 @@
+from email.policy import default
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,6 +12,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), index=True, unique=True, nullable=False)
     email = db.Column(db.String(50), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    avatar_url = db.Column(db.String(100), default='default.png')
+    
     decks = db.relationship('Deck', backref='user', lazy='dynamic', cascade='all, delete-orphan')
 
     @property
@@ -27,6 +30,9 @@ class User(UserMixin, db.Model):
     @login_manager.user_loader
     def write_user_id_to_session(user_id):
         return User.query.get(user_id)
+    
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return (f'<"username": "{self.username}",'

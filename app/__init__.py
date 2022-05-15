@@ -5,6 +5,8 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 load_dotenv()

@@ -43,8 +43,13 @@ def show(deck):
     for i in range (len(cards)):
         card = {}
         card.update(cards[i][0].as_dict())
-        card.update(cards[i][1].as_dict())
-        card.update(cards[i][2].as_dict())
+        sys_def = cards[i][1].as_dict()
+        del sys_def["id"]
+        word = cards[i][2].as_dict()
+        del word["id"]
+        
+        card.update(sys_def)
+        card.update(word)
         
         del card['deck_id']
         deck['cards'].append(card)

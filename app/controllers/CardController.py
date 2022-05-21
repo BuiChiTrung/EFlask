@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
+import json
 
 from flask import Blueprint, request
 from flask_login import login_required, current_user
@@ -37,9 +38,7 @@ def store():
     new_card = {
         'sys_def_id': request.form['sys_def_id'], 
         'deck_id': request.form['deck_id'], 
-        'due_time': datetime.now(), 
-        'interval': 1, 
-        'e_factor': 2
+        'due_time': datetime.now() 
     }
     
     if repository.find({'id': new_card['deck_id'], 'sys_def_id': new_card['sys_def_id']}) != []:
@@ -85,3 +84,23 @@ def update(card):
 def delete(card):
     deleted_card = repository.destroy(card.id)
     return json_response(True, deleted_card.as_dict())
+
+
+@card_blueprint.route('/<id>/revise', methods=['PUT'])
+@verifyCardOwner
+@login_required
+def revise_card(card):
+    q = int(request.form['quality'])
+    if q < 0 or q > 4: 
+        return json_response(False, 'Invalid quality', 400)
+    
+    updated_card = {}
+    
+    updated_card['e_factor'] = card.e_factor + (0.1 - (4 - q) * (0.075 + (4 - q) * 0.025))
+    if updated_card['e_factor'] < 1:
+        updated_card['e_factor'] = 1
+    updated_card['interval'] = card.interval * updated_card['e_factor']
+    updated_card['due_time'] = datetime.now() + timedelta(days=updated_card['interval'])
+    
+    repository.update(card.id, updated_card)
+    return json_response(True, card.as_dict())

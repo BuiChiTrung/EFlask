@@ -1,5 +1,6 @@
 from flask import Blueprint,  request
 from flask_login import login_required, current_user
+from app.repositories.CardRepository import CardRepository
 
 from app.util import json_response, list_to_json_array, get_error_list
 from app.repositories.DeckRepository import DeckRepository
@@ -7,6 +8,7 @@ from app.repositories.DeckRepository import DeckRepository
 from functools import wraps
 
 repository = DeckRepository('app.models.Deck', 'Deck')
+card_repository = CardRepository('app.models.Card', 'Card')
 deck_blueprint = Blueprint('deck_blueprint', __name__)
     
 def verifyDeckOwner(func):
@@ -38,7 +40,12 @@ def store():
 @login_required
 def show(deck):
     deck['cards'] = []
-    cards = repository.show_cards_detail(deck['id'])
+    
+    get_only_due_card = False
+    if request.args.get('card-type') == 'due':
+        get_only_due_card = True
+    
+    cards = repository.show_cards_detail(deck['id'], get_only_due_card)
     print(cards)
     for i in range (len(cards)):
         card = {}

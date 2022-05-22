@@ -8,8 +8,8 @@ video_blueprint = Blueprint('video_blueprint', __name__)
 
 @video_blueprint.route('/')
 def get_video_subtitle():
-    youtube_id = request.args.get('youtube_id')
-    yt = YouTube(f'https://www.youtube.com/watch?v={youtube_id}')
+    video_id = request.args.get('video_id')
+    yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
     
     caption = None
     print(yt.captions)
@@ -17,6 +17,9 @@ def get_video_subtitle():
         caption = yt.captions.get_by_language_code('en')
     elif 'a.en' in yt.captions:
         caption = yt.captions.get_by_language_code('a.en')
+    
+    if caption == None:
+        return json_response(False, 'Subtitle is unavailable in this video', 400)
 
     srt_caption = caption.generate_srt_captions()
     return json_response(True, srt_caption)

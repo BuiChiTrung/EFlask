@@ -2,21 +2,14 @@ import os
 
 from flask import Blueprint, request, send_from_directory, url_for
 from flask_login import login_required, current_user
-from werkzeug.utils import secure_filename
 
 from app.repositories.UserRepository import UserRepository
-from app.util import json_response
+from app.util import json_response, get_upload_file_ext_if_allowed
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 repository = UserRepository('app.models.User', 'User')
 
-ALLOWED_EXTENSIONS = {'svg', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'app/static/avatars'
-
-def get_file_ext_if_allowed(filename):
-    if '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
-        return filename.rsplit('.', 1)[1].lower()
-    return None
 
 @user_blueprint.route('/profile', methods=['PUT'])
 @login_required
@@ -30,8 +23,7 @@ def change_avatar():
     if file.filename == '':
         return json_response(False, 'File is empty.', 400)
 
-    
-    file_ext = get_file_ext_if_allowed(file.filename)
+    file_ext = get_upload_file_ext_if_allowed(file.filename)
     if file_ext != None:
         filename = f'{current_user.id}.{file_ext}'
         file.save(os.path.join(UPLOAD_FOLDER, filename))

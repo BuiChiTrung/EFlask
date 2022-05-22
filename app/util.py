@@ -20,3 +20,11 @@ def get_error_list(error):
         print(value)
         res.extend(value)
     return res
+
+
+ALLOWED_EXTENSIONS = {'svg', 'png', 'jpg', 'jpeg', 'webp'}
+
+def get_upload_file_ext_if_allowed(filename):
+    if '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
+        return filename.rsplit('.', 1)[1].lower()
+    return None

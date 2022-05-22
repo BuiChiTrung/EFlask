@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "praxis-works-350715",
+    "private_key_id": "3fcfabafbc9285a27d9be2f71f161433aff04845",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDh3h2lE1G3A+50\nAAurZBvvuZ4ggR0XzZCxrz2rP3O1tRdeuefuYubQPjjQszVprq7TNGAbJhviXYNp\nfn+qohC8HAc7LmkTXiyzu6c28U+eJhp9p5uIBsz3z1LsmUpprK7Wh4gJW1zUKXJX\n5gXCPzzh/bbF0VFugB7OYkQ7dCIejQD7dveJ6+068L5tZ1reKbOdNfWOjqPHrfYk\nKqcGdVVNvrvUrIpJjaAkVf+OVWDRNqO9bHKhm0sL4a8zqFgUcHo1yKQgUgT19Ged\niJwJqSYySmJOS87m6xqrryscicYYektrNW+lbQx3Wxyg5GYkzQrd/rX5PtvkpU0h\n2/EemwOLAgMBAAECggEACKYWMYN/XggvAc8co0f2j+PmK611/TrYXw1sSZno5tzT\n08M/n8+2seOoDknGclEHjbvUMEXxzGWzSf9XiSOii2lxV3FMAbtZ79nwKbjsyQwB\neK1J1dgY0iZksP2frVM48KsI6P7QG6mooLgEoW8FeEvcS0/cE+ShCVsW7MXiJpRC\nOTQmjdZzDR+ZHqF9Pj6rbD8kdRtxDBOD3+fRDwRotCqSvW4uwAVcme28bwNb+cFT\nXkbNLtEBK/m6VZAchgMR+0csxgmn95IxTUPjZ6Ms3xn52oCglVU0xPyLTIvUpTlz\nsYbJkQRae79GFx7OHoC5XUbubvfZnYZXIxsZZP6fOQKBgQD2J7r6kvHjxRTbyBz+\nEg3i/iV2KhkQR+GE5nwl0SmFkXLTLoOqCPa6fRfpVnJZRqzGQGQxt0k9weVzlW1r\naGtxDOJ+CnYs4Wqi3SXpD1PIk+B2suE5yosTWqqziX6we7Q0R6FNYwGKtnu2XYbS\n9nTdnG8fM1hjkDHDq2mLB5/QUwKBgQDq5qujzqFmSMEVEUJrGy1YDSENxrUdNs1q\nnkSRjA+aBLJw1c6tvESclTPzWw0cVwrl8evL2BeZm+lUOXKQPHWod7AGpNYUcsgC\nUf0g5L/qrHS8/VmjwPFIor+UYjeX4GXmr3CFo7Jnx++v4Dhd8z6IwtTVeEp8EOx0\nwnkUn5L46QKBgQCVcz3U0M7ICWpGnlLr9y4zOTapbZnWBq5nsECD/WAGVm6uxTjv\nTY3vX+/anb/DcGOJ4qJyhOOU+VpEON88LSO+eaIyAEwLp7jEtRxFSicGSrInnyeb\nnNufnpaxdrNSl2irrSnEAG55N54Y9OPcxgHiYw4clWH+4Rc1w6bK4JApPQKBgGpI\npr6+Xq7eGmcC4S9/I3wkrKEEGKy4QCeOpu3IFsMUfvyo8RQRDGZg6BmjSAJbq/Wx\nCYS5KKx7LA7M03ZJtN7eEMpgyPCFotPR7xt0BRYUo9ljNKzwPvwjj1V/PzI7+T9w\ngBQnpjBo+Z11cWupBNFyfkR8Yg9SxPprh8d6EFEJAoGAObdaFbJhBZTR9jEuzZYM\n1llNL93wIeKN+w62UdXOq1tTWDKeM4+e+4kMYaFDJn83igikACd4BqyILtQsvN7Y\nTjZK03Z66C4P6mMncI9O+FjEerXhXF+n2+h5JvmIQz759BYigjlk5KEopjgJf2hN\nOLY7qH+so9lBklZ9Wqa+gL0=\n-----END PRIVATE KEY-----\n",
+    "client_email": "visionapi@praxis-works-350715.iam.gserviceaccount.com",
+    "client_id": "111821822374482638899",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/visionapi%40praxis-works-350715.iam.gserviceaccount.com"
+}  

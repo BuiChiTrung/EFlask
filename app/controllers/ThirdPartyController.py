@@ -50,7 +50,6 @@ def detect_obj_from_image():
     if len(objects) == 0:
         return json_response(False, 'Can\'t detect object from image', 400)
     
-    # res = [objects[0].name]
     # MAX_RETURN_OBJ = 3
     # ACCEPTED_CONFIDENT = 0.75
     
@@ -58,18 +57,18 @@ def detect_obj_from_image():
     #     if objects[i].score >= ACCEPTED_CONFIDENT:
     #         res.append(objects[i].name)
         
-    # print('Number of objects found: {}'.format(len(objects)))
+    max_area = 0
+    res = objects[0].name
     
-    
-    # print(len(objects), objects[0])
-    # for object_ in objects:
-    #     print('\n{} (confidence: {})'.format(object_.name, object_.score))
-    #     print('Normalized bounding polygon vertices: ')
-    #     # for vertex in object_.bounding_poly.normalized_vertices:
-    #     #     print(' - ({}, {})'.format(vertex.x, vertex.y))
+    for object_ in objects:
+        # print('\n{} (confidence: {})'.format(object_.name, object_.score))
+        # for vertex in object_.bounding_poly.normalized_vertices:
+        #     print(' - ({}, {})'.format(vertex.x, vertex.y))
         
-    #     vertex = object_.bounding_poly.normalized_vertices
-    #     print(vertex[0], vertex[1], vertex[2], vertex[3])
-        # print(abs(vertex[0].y - vertex[1].y) * abs(vertex[2].x - vertex[3].x))
+        vertex = object_.bounding_poly.normalized_vertices
+        obj_area = abs(vertex[0].x - vertex[1].x) * abs(vertex[2].x - vertex[3].x)
+        if obj_area > max_area:
+            res = object_.name
+            max_area = obj_area
     
-    return json_response(True, objects[0].name)
+    return json_response(True, res)

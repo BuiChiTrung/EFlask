@@ -11,7 +11,7 @@ from app.repositories.BaseRepository import BaseRepository
 
 class DeckRepository(BaseRepository): 
     def show_cards_detail(self, id, get_only_due_card):
-        date_filter = datetime(2001, 2, 5)
+        date_filter = datetime(2999, 2, 5)
         if get_only_due_card:
             date_filter = datetime.now()
         

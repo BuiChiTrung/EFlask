@@ -1,4 +1,5 @@
-import logging
+import json
+import requests
 
 from flask import Blueprint, request
 from flask_login import current_user, login_required, login_user, logout_user
@@ -38,8 +39,9 @@ def login():
     form = LoginForm(request.form, meta={'csrf': False})
 
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is not None and user.verify_password(form.password.data):
+        user = repository.find({'username': form.username.data})#User.query.filter_by(username=form.username.data).first()
+        if len(user) > 0 and user[0].verify_password(form.password.data):
+            user = user[0]
             login_user(user, form.remember_me.data)
             return json_response(True, user.as_dict())
 
@@ -59,7 +61,6 @@ def signup():
 @login_required
 def change_password():
     form = ChangePasswordForm(request.form, meta={'csrf': False})
-    logging.debug(type(current_user))
     
     if form.validate_on_submit():
         if current_user.verify_password(form.current_password.data):
@@ -74,3 +75,26 @@ def logout():
     logout_user()
     return json_response(True, 'Logged out')
     
+@auth_blueprint.route('/google-login', methods=['POST'])
+def google_login():
+    url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    access_token = request.form['access_token']
+    headers = {
+        'Authorization': f'Bearer  {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data={})
+    response = json.loads(response.text)
+    # return response
+
+    if 'error' in response:
+        return json_response(False, 'Invalid access token', 401)
+    
+    email = response['email']
+    user = repository.find({'email': email})
+    if len(user) == 0:
+        user = repository.store({'email': email, 'username': response['name']})
+    else:
+        user = user[0]
+    
+    login_user(user, True) 
+    return json_response(True, user.as_dict())

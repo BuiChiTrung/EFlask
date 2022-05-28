@@ -79,3 +79,7 @@ def xml_caption_to_srt(self, xml_captions: str) -> str:
             i += 1
     return "\n".join(segments).strip()
 ```
+
+### Get user avatar url 
+`localhost:5001/static/avatars/<avatar_url>`
+(`avatar_url` is a field returned from login api)

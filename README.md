@@ -30,6 +30,7 @@ db.create_all()
 ### Run 
 
 ```
+source venv/bin/activate
 python eflask.py
 ```
 

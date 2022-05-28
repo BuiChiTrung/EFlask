@@ -36,8 +36,8 @@ def store():
 
 
 @deck_blueprint.route('/<id>')
-@verifyDeckOwner
 @login_required
+@verifyDeckOwner
 def show(deck):
     deck['cards'] = []
     
@@ -65,8 +65,8 @@ def show(deck):
 
 
 @deck_blueprint.route('/<id>', methods=['PUT'])
-@verifyDeckOwner
 @login_required
+@verifyDeckOwner
 def update(deck):
     if 'name' in request.form:
         repository.update(deck['id'], {'name': request.form["name"]})
@@ -74,8 +74,8 @@ def update(deck):
 
 
 @deck_blueprint.route('/<id>', methods = ['DELETE'])
-@verifyDeckOwner
 @login_required
+@verifyDeckOwner
 def destroy(deck):
     deleted_deck = repository.destroy(deck['id'])
     return json_response(True, deleted_deck.as_dict())

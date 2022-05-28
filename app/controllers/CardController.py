@@ -52,16 +52,16 @@ def store():
 
 
 @card_blueprint.route('/<id>')
-@verifyCardOwner
 @login_required
+@verifyCardOwner
 def show(card):
     card_detail = repository.show_detail(card)
     return json_response(True, tuple_to_dict(card_detail))
 
 
 @card_blueprint.route('/<id>', methods=['PUT'])
-@verifyCardOwner
 @login_required
+@verifyCardOwner
 def update(card):
     new_definition = {}
     if 'meaning' in request.form: new_definition['meaning'] = request.form['meaning']
@@ -79,16 +79,16 @@ def update(card):
     
     
 @card_blueprint.route('/<id>', methods=['DELETE'])
-@verifyCardOwner
 @login_required
+@verifyCardOwner
 def delete(card):
     deleted_card = repository.destroy(card.id)
     return json_response(True, deleted_card.as_dict())
 
 
 @card_blueprint.route('/<id>/revise', methods=['PUT'])
-@verifyCardOwner
 @login_required
+@verifyCardOwner
 def revise_card(card):
     q = int(request.form['quality'])
     if q < 0 or q > 4: 

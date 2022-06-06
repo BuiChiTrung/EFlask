@@ -27,6 +27,7 @@ def change_avatar():
     if file_ext != None:
         filename = f'{current_user.id}.{file_ext}'
         file.save(os.path.join(UPLOAD_FOLDER, filename))
+        repository.update(current_user.id, {'avatar_url': filename})
         return json_response(True, {'new_avatar_url': filename})
     
     return json_response(False, 'File type not allowed', 400)

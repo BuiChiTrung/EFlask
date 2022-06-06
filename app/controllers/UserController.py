@@ -11,6 +11,13 @@ repository = UserRepository('app.models.User', 'User')
 
 UPLOAD_FOLDER = 'app/static/avatars'
 
+@user_blueprint.route('/profile')
+@login_required
+def get_profile():
+    user = current_user.as_dict()
+    del user['password_hash']
+    return json_response(True, user)
+    
 @user_blueprint.route('/profile', methods=['PUT'])
 @login_required
 def change_avatar():

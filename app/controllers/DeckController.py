@@ -29,10 +29,11 @@ def verifyDeckOwner(func):
 def store():
     if 'name' not in request.form or len(request.form['name']) < 1:
         return json_response(False, "Deck name is required", 400)
+    elif len(repository.find({'name': request.form['name']})) > 0:
+        return json_response(False, "Deck name already exists", 400)
     else:
         new_deck = repository.store({'name': request.form['name'], 'user_id': current_user.id})
-        return json_response(True, new_deck.as_dict(), 201)
-        
+        return json_response(True, new_deck.as_dict(), 201)   
 
 
 @deck_blueprint.route('/<id>')

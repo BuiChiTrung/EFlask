@@ -40,6 +40,10 @@ python eflask.py
 python -m build_db.add_words_to_db
 ```
 
+#### Update db schema
++ Delete folder `migrations`.
++ Delete table `alembic_version` in db.
++ Exec shell script: `./update_db_schema`
 #### In order to exec video API
 Update pytube to convert youtube caption from xml to srt
 ```

@@ -8,6 +8,7 @@ class Word(db.Model):
     ipa = db.Column(db.String(50))
     audio_url = db.Column(db.String(120))
     img_url = db.Column(db.String(300)) 
+    vi_meaning = db.Column(db.String(20))
 
     sys_defs = db.relationship('SystemDefinition', backref='word', lazy='dynamic', cascade='all, delete-orphan')
 

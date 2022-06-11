@@ -39,7 +39,6 @@ def change_avatar():
     
     return json_response(False, 'File type not allowed', 400)
 
-
 @user_blueprint.route('/uploads/<filename>')
 def upload(filename):
     return send_from_directory('static/avatars', filename)

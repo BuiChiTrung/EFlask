@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     avatar_url = db.Column(db.String(100), default='default.png')
+    phone_number = db.Column(db.String(15), nullable=False)
     
     decks = db.relationship('Deck', backref='user', lazy='dynamic', cascade='all, delete-orphan')
 

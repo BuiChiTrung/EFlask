@@ -1,21 +1,15 @@
 import json
-import os
-import re
-import requests
 import random
 import string
 
-from dotenv import load_dotenv
 from flask import Blueprint, request
 from flask_login import current_user, login_required, login_user, logout_user
-from twilio.rest import Client
 from werkzeug.security import generate_password_hash
 
-from app.models.User import User
 from app.repositories.UserRepository import UserRepository
-from app.util.constant import GG_AUTH_ENDPOINT
-from app.util.others import json_response, get_error_list
 from app.util.forms import LoginForm, SignUpForm, ChangePasswordForm
+from app.util.others import json_response, get_error_list
+from app.util.services import google_oauth, twilio_sent_new_pass_via_sms
 
 repository = UserRepository('app.models.User', 'User')
 auth_blueprint = Blueprint('auth_blueprint', __name__)
@@ -68,13 +62,7 @@ def logout():
     
 @auth_blueprint.route('/google-login', methods=['POST'])
 def google_login():
-    url = GG_AUTH_ENDPOINT
-    access_token = request.form['access_token']
-    headers = {
-        'Authorization': f'Bearer  {access_token}'
-    }
-    response = requests.request("GET", url, headers=headers, data={})
-    response = json.loads(response.text)
+    response = json.loads(google_oauth(request.form['access_token']).text)
 
     if 'error' in response:
         return json_response(False, 'Invalid access token', 401)
@@ -101,7 +89,7 @@ def forgot_password():
         new_password = random_string_generator()
         repository.update(user.id, {'password_hash': generate_password_hash(new_password)})
         try: 
-            sent_new_pass_via_sms(new_password, user.phone_number)
+            twilio_sent_new_pass_via_sms(new_password, user.phone_number)
         except Exception:
             return json_response(False, 'Invalid phone number', 400)
         
@@ -112,18 +100,3 @@ def reformat_phone_number(phone_number):
 
 def random_string_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
-
-def sent_new_pass_via_sms(new_password, receiver):
-    load_dotenv()
-    account_sid = os.getenv('ACCOUNT_SID')
-    auth_token = os.getenv('AUTH_TOKEN')
-    
-    client = Client(account_sid, auth_token)
-    
-    print(new_password, receiver)
-
-    client.messages.create(
-        body=f'EFlask new password: {new_password}',
-        from_=os.getenv('TWILIO_PHONE_NUMBER'),
-        to=receiver
-    )

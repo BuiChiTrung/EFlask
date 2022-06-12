@@ -1,10 +1,10 @@
 import os
 
-from flask import Blueprint, request, send_from_directory, url_for
+from flask import Blueprint, request
 from flask_login import login_required, current_user
 
 from app.repositories.UserRepository import UserRepository
-from app.util.constant import UPLOAD_FOLDER
+from app.util.constants import UPLOAD_FOLDER
 from app.util.others import json_response, get_upload_file_ext_if_allowed
 
 user_blueprint = Blueprint('user_blueprint', __name__)

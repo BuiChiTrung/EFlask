@@ -4,8 +4,9 @@ from flask import Blueprint, request
 from flask_login import login_required
 
 from app.repositories.WordRepository import WordRepository
-from app.util.constant import TOTAL_WORDS
-from app.util.others import google_translate, json_response, list_to_json_array
+from app.util.constants import TOTAL_WORDS
+from app.util.others import json_response, list_to_json_array
+from app.util.services import google_translate
 
 repository = WordRepository('app.models.Word', 'Word')
 word_blueprint = Blueprint('word_blueprint', __name__)
@@ -24,7 +25,7 @@ def find_like():
 @word_blueprint.route('/<id>')
 def show(id):
     word = repository.show(id)
-    if hasattr(word, 'vi_mean') == False:
+    if word.vi_meaning == None:
         repository.update(word.id, {'vi_meaning': google_translate(word.word)})
     
     word = get_word_defs_and_convert_to_dict(word)

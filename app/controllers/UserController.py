@@ -4,12 +4,11 @@ from flask import Blueprint, request, send_from_directory, url_for
 from flask_login import login_required, current_user
 
 from app.repositories.UserRepository import UserRepository
-from app.util import json_response, get_upload_file_ext_if_allowed
+from app.util.constant import UPLOAD_FOLDER
+from app.util.others import json_response, get_upload_file_ext_if_allowed
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 repository = UserRepository('app.models.User', 'User')
-
-UPLOAD_FOLDER = 'app/static/avatars'
 
 @user_blueprint.route('/profile')
 @login_required
@@ -38,7 +37,3 @@ def change_avatar():
         return json_response(True, {'new_avatar_url': filename})
     
     return json_response(False, 'File type not allowed', 400)
-
-@user_blueprint.route('/uploads/<filename>')
-def upload(filename):
-    return send_from_directory('static/avatars', filename)

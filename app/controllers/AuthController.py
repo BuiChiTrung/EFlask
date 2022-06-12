@@ -8,45 +8,17 @@ import string
 from dotenv import load_dotenv
 from flask import Blueprint, request
 from flask_login import current_user, login_required, login_user, logout_user
-from flask_wtf import FlaskForm
 from twilio.rest import Client
 from werkzeug.security import generate_password_hash
-from wtforms import StringField, PasswordField, BooleanField, ValidationError
-from wtforms.validators import DataRequired, Length, EqualTo
 
-from app.util  import json_response, get_error_list
 from app.models.User import User
 from app.repositories.UserRepository import UserRepository
+from app.util.constant import GG_AUTH_ENDPOINT
+from app.util.others import json_response, get_error_list
+from app.util.forms import LoginForm, SignUpForm, ChangePasswordForm
 
 repository = UserRepository('app.models.User', 'User')
 auth_blueprint = Blueprint('auth_blueprint', __name__)
-
-class LoginForm(FlaskForm):
-    username = StringField(validators=[DataRequired()])
-    password = PasswordField(validators=[DataRequired()])
-    remember_me = BooleanField()
-
-class SignUpForm(FlaskForm):
-    username = StringField(validators=[DataRequired(), Length(min = 10, message='Username minium length is %(min)d.')])
-    password = PasswordField(validators=[DataRequired(), Length(min = 6, message='Password minium length is %(min)d.')])
-    phone_number = StringField(validators=[DataRequired()])
-    password_confirmation = PasswordField(validators=[DataRequired(), EqualTo('password', message='Password and confirmation password does not match.')])
-
-    def validate_username(self, field):
-        if repository.find({'username': field.data}) != []:
-            raise ValidationError('Username already in use.')
-        
-    def validate_phone_number(self, field):
-        if re.search('^[0-9]{9,11}$', field.data) == None:
-            raise ValidationError('Invalid phone number.')
-        elif repository.find({'phone_number': reformat_phone_number(field.data)}) != []:
-            raise ValidationError('Phone number already in use.')
-        
-
-class ChangePasswordForm(FlaskForm):
-    current_password = PasswordField(validators=[DataRequired()])
-    new_password = PasswordField(validators=[DataRequired(), Length(min = 6, message='Password minium length is %(min)d.')])
-    password_confirmation = PasswordField(validators=[DataRequired(), EqualTo('new_password', message='New password and confirmation password does not match.')])
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
@@ -85,6 +57,7 @@ def change_password():
             repository.update(current_user.id, {'password_hash': generate_password_hash(form.new_password.data)})
             return json_response(True, 'Successfully updated password.')
         return json_response(False, 'Current password is not correct.', 400)  
+    
     return json_response(False, get_error_list(form.errors), 400)
         
 @auth_blueprint.route('/logout', methods=['POST'])
@@ -95,14 +68,13 @@ def logout():
     
 @auth_blueprint.route('/google-login', methods=['POST'])
 def google_login():
-    url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    url = GG_AUTH_ENDPOINT
     access_token = request.form['access_token']
     headers = {
         'Authorization': f'Bearer  {access_token}'
     }
     response = requests.request("GET", url, headers=headers, data={})
     response = json.loads(response.text)
-    # return response
 
     if 'error' in response:
         return json_response(False, 'Invalid access token', 401)
@@ -145,7 +117,10 @@ def sent_new_pass_via_sms(new_password, receiver):
     load_dotenv()
     account_sid = os.getenv('ACCOUNT_SID')
     auth_token = os.getenv('AUTH_TOKEN')
+    
     client = Client(account_sid, auth_token)
+    
+    print(new_password, receiver)
 
     client.messages.create(
         body=f'EFlask new password: {new_password}',

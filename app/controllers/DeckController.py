@@ -2,7 +2,7 @@ from flask import Blueprint,  request
 from flask_login import login_required, current_user
 from app.repositories.CardRepository import CardRepository
 
-from app.util import json_response, list_to_json_array, get_error_list
+from app.util.others import json_response, list_to_json_array
 from app.repositories.DeckRepository import DeckRepository
 
 from functools import wraps

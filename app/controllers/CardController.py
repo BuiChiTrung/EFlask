@@ -9,7 +9,7 @@ from app.repositories.CardRepository import CardRepository
 from app.repositories.DeckRepository import DeckRepository
 from app.repositories.SystemDefinitionRepository import SystemDefinitionRepository
 from app.repositories.UserDefinitionRepository import UserDefinitionRepository
-from app.util import json_response, tuple_to_dict
+from app.util.others import json_response, tuple_to_dict
 
 card_blueprint = Blueprint('card_blueprint', __name__)
 repository = CardRepository('app.models.Card', 'Card')

@@ -5,7 +5,8 @@ from google.cloud import vision
 from flask import Blueprint, request
 from pytube import YouTube
 
-from app.util import json_response, get_upload_file_ext_if_allowed
+from app.util.others import json_response, get_upload_file_ext_if_allowed
+from app.util.constant import YOUTUBE_BASE_URL
 
 third_party_blueprint = Blueprint('third_party_blueprint', __name__)
 
@@ -13,7 +14,7 @@ third_party_blueprint = Blueprint('third_party_blueprint', __name__)
 @third_party_blueprint.route('/youtube')
 def get_youtube_subtitle():
     video_id = request.args.get('video_id')
-    yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
+    yt = YouTube(f'{YOUTUBE_BASE_URL}?v={video_id}')
     
     caption = None
     print(yt.captions)

@@ -3,9 +3,9 @@ import random
 from flask import Blueprint, request
 from flask_login import login_required
 
-from app import db
 from app.repositories.WordRepository import WordRepository
-from app.util import google_translate, json_response, list_to_json_array
+from app.util.constant import TOTAL_WORDS
+from app.util.others import google_translate, json_response, list_to_json_array
 
 repository = WordRepository('app.models.Word', 'Word')
 word_blueprint = Blueprint('word_blueprint', __name__)
@@ -32,8 +32,7 @@ def show(id):
 
 @word_blueprint.route('/random')
 def get_random_words():
-    quantity = request.args.get('quantity')
-    TOTAL_WORDS = 48190
+    quantity = request.args.get('quantity') 
     
     if int(quantity) > TOTAL_WORDS:
         return json_response(False, 'Invalid quantity', 400)

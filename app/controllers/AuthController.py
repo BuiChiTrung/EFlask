@@ -79,10 +79,10 @@ def google_login():
 
 @auth_blueprint.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    users = repository.find({'phone_number': request.form['phone_number']})
+    users = repository.find({'phone_number': request.form['phone_number'], 'username': request.form['username']})
     
     if users == []:
-        return json_response(False, 'No account matches phone number', 400)
+        return json_response(False, 'User does not exist', 400)
     else:
         user = users[0]
         new_password = random_string_generator()

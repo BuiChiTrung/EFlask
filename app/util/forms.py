@@ -27,7 +27,7 @@ class SignUpForm(FlaskForm):
     def validate_phone_number(self, field):
         if re.search('^[0-9]{9,11}$', field.data) == None:
             raise ValidationError('Invalid phone number.')
-        elif user_repository.find({'phone_number': f'+84{field.data}'}) != []:
+        elif user_repository.find({'phone_number': field.data}) != []:
             raise ValidationError('Phone number already in use.')
         
         

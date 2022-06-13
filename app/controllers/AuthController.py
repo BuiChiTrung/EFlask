@@ -79,8 +79,7 @@ def google_login():
 
 @auth_blueprint.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    phone_number = reformat_phone_number(request.form['phone_number'])
-    users = repository.find({'phone_number': phone_number})
+    users = repository.find({'phone_number': request.form['phone_number']})
     
     if users == []:
         return json_response(False, 'No account matches phone number', 400)
@@ -89,14 +88,12 @@ def forgot_password():
         new_password = random_string_generator()
         repository.update(user.id, {'password_hash': generate_password_hash(new_password)})
         try: 
-            twilio_sent_new_pass_via_sms(new_password, user.phone_number)
+            twilio_sent_new_pass_via_sms(new_password, f'+84{user.phone_number}')
         except Exception:
             return json_response(False, 'Invalid phone number', 400)
         
         return json_response(True, 'New password is sent to your phone number')
 
-def reformat_phone_number(phone_number):
-    return f'+84{phone_number}'
 
 def random_string_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))

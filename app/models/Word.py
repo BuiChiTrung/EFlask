@@ -1,7 +1,8 @@
 from app import db
+from app.models.Base import Base
 from app.models.SystemDefinition import SystemDefinition
 
-class Word(db.Model):
+class Word(db.Model, Base):
     __tablename__ = 'words'
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(50), nullable=False, unique=True)
@@ -11,12 +12,3 @@ class Word(db.Model):
     vi_meaning = db.Column(db.String(20))
 
     sys_defs = db.relationship('SystemDefinition', backref='word', lazy='dynamic', cascade='all, delete-orphan')
-
-    def as_dict(self):
-       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    # def __repr__(self):
-    #     return (f'<"word": "{self.word}",'
-    #             f'"ipa": "{self.ipa}",'
-    #             f'"img_url": "{self.img_url}"'
-    #             '>')

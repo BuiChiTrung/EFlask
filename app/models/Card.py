@@ -1,7 +1,8 @@
 from email.policy import default
 from app import db
+from app.models.Base import Base
 
-class Card(db.Model):
+class Card(db.Model, Base):
     __tablename__ = 'cards'
     
     id = db.Column(db.BigInteger, primary_key=True)
@@ -12,6 +13,3 @@ class Card(db.Model):
     deck_id = db.Column(db.Integer, db.ForeignKey('decks.id'))
     sys_def_id = db.Column(db.Integer, db.ForeignKey('system_definitions.id'), unique=True)
     user_def_id = db.Column(db.Integer, db.ForeignKey('user_definitions.id'), unique=True)
-    
-    def as_dict(self):
-       return {c.name: getattr(self, c.name) for c in self.__table__.columns}

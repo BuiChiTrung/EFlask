@@ -1,6 +1,7 @@
 from app import db
+from app.models.Base import Base
 
-class Deck(db.Model):
+class Deck(db.Model, Base):
     __tablename__ = 'decks'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -9,6 +10,3 @@ class Deck(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     cards = db.relationship('Card', backref='deck', lazy='dynamic', cascade='all, delete-orphan') 
-    
-    def as_dict(self):
-       return {c.name: getattr(self, c.name) for c in self.__table__.columns}

@@ -1,6 +1,7 @@
 from app import db
+from app.models.Base import Base
 
-class UserDefinition(db.Model):
+class UserDefinition(db.Model, Base):
     __tablename__ = 'user_definitions'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -11,13 +12,3 @@ class UserDefinition(db.Model):
     word_id = db.Column(db.Integer, db.ForeignKey('words.id'), nullable=False)
 
     cards = db.relationship('Card', backref='user_def', lazy='dynamic', cascade='all, delete-orphan')
-
-    def as_dict(self):
-       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    def __repr__(self):
-        return (f'<"meaning": "{self.meaning}",'
-                f'"lexical_category": "{self.lexical_category}",'
-                f'"example": "{self.example}",'
-                f'"word_id": "{self.word_id}"'
-                '>')

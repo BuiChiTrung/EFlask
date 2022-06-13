@@ -35,7 +35,7 @@ def signup():
         repository.store({
             'username': form.username.data, 
             'password': form.password.data,
-            'phone_number': reformat_phone_number(form.phone_number.data)
+            'phone_number': form.phone_number.data
         })   
         return json_response(True, 'Your account has been created.', 201)
         

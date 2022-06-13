@@ -14,7 +14,6 @@ repository = UserRepository('app.models.User', 'User')
 @login_required
 def get_profile():
     user = current_user.as_dict()
-    del user['password_hash']
     return json_response(True, user)
     
 @user_blueprint.route('/profile', methods=['PUT'])

@@ -25,6 +25,8 @@ services:
       - "5001:5001"
     networks:
       - eflask
+    env_file:
+      - .env.example
     environment:
       - HOSTNAME=database
       - PORT=3306

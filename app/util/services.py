@@ -31,6 +31,7 @@ def google_translate(word):
     }
 
     response = json.loads(requests.request("POST", url, data=payload, headers=headers).text)
+    print(response)
     return response['data']['translations'][0]['translatedText']
 
 def google_vision_api_detect_obj(image):

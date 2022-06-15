@@ -1,4 +1,5 @@
 from email.policy import default
+from enum import unique
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -15,7 +16,7 @@ class User(UserMixin, db.Model, Base):
     email = db.Column(db.String(50), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     avatar_url = db.Column(db.String(100), default='default.png')
-    phone_number = db.Column(db.String(15), nullable=False)
+    phone_number = db.Column(db.String(15), unique=True)
     
     decks = db.relationship('Deck', backref='user', lazy='dynamic', cascade='all, delete-orphan')
 

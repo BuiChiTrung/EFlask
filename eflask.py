@@ -8,10 +8,9 @@ from app.models.SystemDefinition import SystemDefinition
 from app.models.UserDefinition import UserDefinition
 from app.models.Word import Word
 from app.models.User import User
+from build_db import add_words_to_db
 
 app = create_app()
-with app.app_context():
-    db.create_all()
 migrate = Migrate(app, db)
 
 @app.shell_context_processor
@@ -25,4 +24,5 @@ def make_shell_context():
                 Card=Card)
 
 if __name__ == "__main__":
+    add_words_to_db()
     app.run(host="0.0.0.0", port=5001, debug=True)

@@ -1,5 +1,13 @@
 # Backend installation
 
+## Docker
+```
+cd docker
+docker-compose up -d
+```
+
+## Normal
+
 ### Create virtual env & install dependencies
 
 ```
@@ -23,11 +31,6 @@ python eflask.py
 ```
 
 ### Optional
-#### Add words data from file to db
-```
-python -m build_db.add_words_to_db
-```
-
 #### Update db schema
 + Delete folder `migrations`.
 + Delete table `alembic_version` in db.

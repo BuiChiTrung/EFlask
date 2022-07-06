@@ -1,0 +1,33 @@
+version: "3.8"
+name: eflask
+
+services:
+  mariadb:
+    image: mariadb
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=EFlask
+      - MYSQL_ROOT_PASSWORD=Trung123
+    volumes:
+      - db:/var/lib/mysql
+  backend:
+    restart: always
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - 5001:5001
+    environment:
+      - HOSTNAME=eflask-mariadb-1
+      - PORT=3306
+      - DB_USER=root
+      - DATABASE=EFlask
+      - PASSWORD=Trung123
+      - ACCOUNT_SID=AC679de3766e3c0c980f4355884d3ba3c5
+      - AUTH_TOKEN=8f8e23e74e3330dc8e64b75326256718
+      - TWILIO_PHONE_NUMBER=+13254221982
+      - X_RAPIDAPI_KEY=756fb8f68fmsh4c2c2d70ce02919p152a4ejsn1480c5a1bcc2
+      - SECRET_KEY='very secret key'
+volumes:
+  db:

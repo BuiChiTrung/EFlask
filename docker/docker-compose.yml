@@ -4,22 +4,31 @@ name: eflask
 services:
   mariadb:
     image: mariadb
-    ports:
-      - "3307:3306"
     environment:
       - MYSQL_DATABASE=EFlask
       - MYSQL_ROOT_PASSWORD=Trung123
     volumes:
       - db:/var/lib/mysql
+
+  phpmyadmin:
+    depends_on:
+      - mariadb
+    image: phpmyadmin
+    ports:
+      - 8082:80
+    environment:
+      PMA_HOST: mariadb
+  
   backend:
-    restart: always
+    depends_on:
+      - mariadb
     build: 
       context: ..
       dockerfile: docker/Dockerfile
     ports:
       - 5001:5001
     environment:
-      - HOSTNAME=eflask-mariadb-1
+      - HOSTNAME=mariadb
       - PORT=3306
       - DB_USER=root
       - DATABASE=EFlask

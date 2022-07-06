@@ -1,4 +1,3 @@
-from sqlalchemy import table
 from app import db
 from app.models.Base import Base
 

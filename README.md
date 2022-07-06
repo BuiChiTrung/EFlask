@@ -14,18 +14,6 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 #### Setup db in mysql according to .env
-#### Create db schema
-```
-# on MacOS/Linux
-export FLASK_APP=eflask.py
-# on Windows
-$env:FLASK_APP="eflask.py"
-```
-
-```
-flask shell
-db.create_all()
-```
 
 ### Run 
 

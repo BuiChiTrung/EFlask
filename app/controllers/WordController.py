@@ -12,7 +12,6 @@ repository = WordRepository('app.models.Word', 'Word')
 word_blueprint = Blueprint('word_blueprint', __name__)
 
 @word_blueprint.route('/')
-@login_required
 def find_like():
     words = repository.find_like(request.args.get('word'))
     result = []

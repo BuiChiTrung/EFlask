@@ -26,12 +26,9 @@ def add_word_detail(start_line, end_line):
 
 
         for definition in definitions:
-            # if 'example' in definition:
-            #     max_len = max(max_len, len(definition['example']))
             db.session.add(SystemDefinition(**definition, word=new_word))    
         
     db.session.commit()
-    # print(max_len)
 
 def add_word_image(start_line, end_line):        
     for i in range(start_line, end_line):
@@ -48,9 +45,10 @@ def add_word_image(start_line, end_line):
 
 if __name__ == "__main__":
     with app.app_context():
-        with open(WORD_DETAIL, 'r') as inp:
-            lines = inp.readlines()
-            add_word_detail(0, len(lines))
-        with open(WORD_IMAGE, 'r') as inp:
-            lines = inp.readlines()
-            add_word_image(0, len(lines))
+        # if Word.query.first() == []:
+            with open(WORD_DETAIL, 'r') as inp:
+                lines = inp.readlines()
+                add_word_detail(0, 3)#len(lines))
+            with open(WORD_IMAGE, 'r') as inp:
+                lines = inp.readlines()
+                add_word_image(0, 3)#len(lines))
